@@ -5,9 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyber Bar Cellphone Repair Ticketing System</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="app.js"></script>
+    
 </head>
 <body>
-    <button onclick="createTable()">Create Table</button>
+    <script>
+        function createTable(){
+            fetch('http://localhost:3000/createpoststable').then(res=>{
+                console.log(res);
+            });
+        }
+        function logout(){
+            fetch('http://localhost:3000/logout').then(res=>
+                {console.log("Logged Out");}
+            )
+        };
+        console.log(document.cookie);
+        // function addpost(formdata){
+        //     //addpost
+        //     continue;
+        // }
+    </script>
+    <!-- <button onclick="createTable()">Create Table</button> -->
+    <a href="/login">login</a>
+    <button onclick="logout()">Logout</button>
+    <a href="/register">register</a>
+    <form method="POST" action="/addpost2">
+        <input type="text" id="title" name="title"/>
+        <input type="text" id="body" name="body"/>
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>

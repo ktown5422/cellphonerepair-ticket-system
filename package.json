@@ -2,7 +2,7 @@
   "name": "cellphonerepair-ticket-system",
   "version": "1.0.0",
   "description": "Cyber Bar's Ticket Management Software App\r - This is a Cell Phone Repair Ticket Management Software that allow repair technicians to keep track of all repair tickets. \r - repair technicians can find this useful beacuse it allows them to create user accounts, add pre and post-repair comments and diagnostic notes.\r -This idea came from My self working as a cell phone repair technician.\r ### Features\r - User login: Users will be able to create accounts and log in to the application which routes them to the ticket dashboard. Each user will have a profile page that has access to modify all tickets.\r - Create Ticket: Users will be able to create new ticket posts when logged in. New posts will appear on the main dashboard.\r - Delete Ticket: Users will be able to delete ticket upon tasks completion.",
-  "main": "main.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js"
@@ -22,7 +22,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "hbs": "^4.1.1",
-    "mysql": "^2.18.1",
+    "mysql": "github:mysqljs/mysql",
     "nodemon": "^2.0.4"
   }
 }

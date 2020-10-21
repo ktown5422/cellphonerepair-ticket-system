@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const path = require('path');
 
 
+
 // Create connection
 const db = mysql.createConnection({
     host: 'localhost',
@@ -21,20 +22,29 @@ db.connect((err) => {
     }
 })
 
-const app = express();
+const app = express(); 
+
+
+// Puts css files into a static folder for files
+app.use('/css', express.static(__dirname + '/public/css'));
+
 app.use(express.static('cellphonerepair-ticket-system'), express.urlencoded({
     extended:true
     })
 );
 
+// the route '/' is routed to the login.html page. 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
+    res.sendFile(path.join(__dirname + '/views/login.html'));
 });
 
+// Routes to the register page
 app.get('/register', function (req, res) {
-    res.sendFile(path.join(__dirname + '/register.html'));
+    res.sendFile(path.join(__dirname + '/views/register.html'));
 });
 
+/*Route to register the user checks for verification of password 
+If username, password and verify matches corectly the info is inserted into the Database*/
 app.post('/registerUser', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
@@ -52,13 +62,16 @@ app.post('/registerUser', (req, res) => {
         console.log(result);
         res.send('User Added');
     });
-    return "post added";
+    return "user added";
 });
 
+// Routes to the login page which routes to the views/login.html page 
 app.get('/login', function (req, res) {
-    res.sendFile(path.join(__dirname + '/login.html'));
+    res.sendFile(path.join(__dirname + '/views/login.html'));
 });
 
+/* Takes the login and password information checks the database to see if the login and password info is stored.
+If so, then it grants access to app, if not then console.log not logged in.*/
 app.post('/login', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
@@ -74,17 +87,18 @@ app.post('/login', (req, res) => {
             // sessionStorage.setItem("user", user[0]);
             let user1 = {id:user[0].id, username:user[0].username};
             res.cookie('user', user1);
+            console.log("Logged In");
             res.redirect('/');
         }
         else{
-            return "Not logged In";
+            console.log("Not logged In");
         }
     });
 });
 
 app.get('/logout', function (req, res) {
     res.clearCookie('user');
-    res.redirect('/login');
+    res.redirect('views/login');
 });
 // Create table
 app.get('/createpoststable', (req, res) => {

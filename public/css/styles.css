@@ -19,3 +19,8 @@ nav li a {
     list-style: none;
     text-decoration: none;
 }
+
+.title{
+    text-align: center;
+    margin-top: 25px;
+}

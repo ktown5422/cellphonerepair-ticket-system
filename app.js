@@ -13,7 +13,7 @@ const db = mysql.createConnection({
     database: 'ticket-system'
 });
 
-// Connect
+// Connect Database
 db.connect((err) => {
     if(err){
       console.log(err)
@@ -36,6 +36,10 @@ app.use(express.static('cellphonerepair-ticket-system'), express.urlencoded({
 // the route '/' is routed to the login.html page. 
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/views/login.html'));
+});
+
+app.get('/index', function (req, res) {
+    res.sendFile(path.join(__dirname + '/views/index.html'));
 });
 
 // Routes to the register page
@@ -88,7 +92,7 @@ app.post('/login', (req, res) => {
             let user1 = {id:user[0].id, username:user[0].username};
             res.cookie('user', user1);
             console.log("Logged In");
-            res.redirect('/');
+            res.redirect('index');
         }
         else{
             console.log("Not logged In");
@@ -98,7 +102,7 @@ app.post('/login', (req, res) => {
 
 app.get('/logout', function (req, res) {
     res.clearCookie('user');
-    res.redirect('views/login');
+    res.redirect('/login');
 });
 // Create table
 app.get('/createpoststable', (req, res) => {

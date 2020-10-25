@@ -1,6 +1,8 @@
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
+const ejs = require('ejs');
+const bodyParser = require('body-parser');
 
 
 
@@ -24,6 +26,14 @@ db.connect((err) => {
 
 const app = express(); 
 
+//set views file
+app.set('views',path.join(__dirname,'views'));
+			
+//set view engine
+app.set('view engine', 'ejs');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+ 
 
 // Puts css files into a static folder for files
 app.use('/css', express.static(__dirname + '/public/css'));
@@ -96,23 +106,30 @@ app.post('/login', (req, res) => {
         }
         else{
             console.log("Not logged In");
+            res.redirect('/login');
         }
     });
 });
 
 app.get('/logout', function (req, res) {
     res.clearCookie('user');
-    res.redirect('/login');
+    res.redirect('/');
 });
-// Create table
-app.get('/createpoststable', (req, res) => {
-    let sql = 'CREATE TABLE tickets(id int AUTO_INCREMENT, owner_id int, title VARCHAR(255), cellphone VARCHAR(255), body VARCHAR(255), PRIMARY KEY(id))';
-    db.query(sql, (err, result) => {
+// Create ticket
+app.post('/addticket', (req, res) => {
+    let name = req.body.name;
+    let phone_number = req.body.phone_number;
+    let cellphone = req.body.cellphone;
+    let problem = req.body.problem;
+    let user = {name: name, phone_number: phone_number, cellphone: cellphone, problem: problem};
+    
+    let sql = 'INSERT INTO tickets SET ?';
+    let query = db.query(sql, user, (err, result) => {
         if(err) throw err;
-        console.log(result);
-        res.send('TICKETS table created...');
+        console.log("ticket added");
+        res.redirect('/index');
     });
-    return "it worked";
+    return "ticket added"
 });
 
 // // Insert post 1
@@ -138,16 +155,16 @@ app.get('/createpoststable', (req, res) => {
 // }
 
 // // Insert post 2
-app.post('/addpost2', (req, res) => {
-    let post = {title:req.body.title, body:req.body.body};
-    let sql = 'INSERT INTO posts SET ?';
-    let query = db.query(sql, post, (err, result) => {
+/*app.post('/addticket', (req, res) => {
+    let data = {name:req.body.name, body:req.body.body};
+    let sql = 'INSERT INTO ticket SET ?';
+    let query = db.query(sql, data, (err, result) => {
         if(err) throw err;
         console.log(result);
         res.send('Post 2 added...');
     });
     return "post added";
-});
+}); */
 
 // // Select posts
 // app.get('/getposts', (req, res) => {

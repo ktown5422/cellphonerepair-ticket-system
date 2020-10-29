@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Bar's Cellphone Repair Ticketing System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/120ca474ce.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    
+</head>
+<body>
+    <script>
+        function createTable(){
+            fetch('http://localhost:3000/createpoststable').then(res=>{
+                console.log(res);
+            });
+        }
+        function logout(){
+            fetch('http://localhost:3000/logout').then(res=>
+                {console.log("Logged Out");}
+            )
+        };
+        console.log(document.cookie);
+        // function addpost(formdata){
+        //     //addpost
+        //     continue;
+        // }
+        var menuBtn = document.getElementsByClassName('menu-btn')
+        var mobileMenu = document.getElementsByClassName('mobile-menu')
+        var clickedBtn = function() {
+          mobileMenu[0].classList.toggle('active');
+        }
+
+        mobileMenu.addEventListener('click', clickedBtn);
+
+        function clickedBtn() {  
+          mobileMenu[0].classList.toggle('active');
+          console.log(mobileMenu[0]);
+        }
+    </script>
+    
+    <!-- <button onclick="createTable()">Create Table</button> -->
+    <!-- <nav>
+        <h4>Cyber Bar Cellphone Repair Ticket System</h4>
+        <ul>
+            <li><a href="/login">Login</a></li>
+            <li><button onclick="logout()">Logout</button></li>
+            <li><a href="/register">Register</a></li>
+        </ul>
+    </nav> -->
+  
+  <nav class="container">
+      <div class="logo">
+        <a href="/login" class="name">Cyber Bar's Cell Phone Repair Ticket Software</div>
+      </div>
+      <img class="img1" src="/img/Cyber-Bar2.png" alt="logo">
+      <div class="nav-menu">
+        <a href="/login">Login</a>
+        <a href="/logout"><button onclick="logout()">Logout</button></a>
+        <a href="/register">Register</a>
+      </div>
+      <div class="menu-btn">
+        <i class="fas fa-bars"></i>
+      </div>
+  </nav>
+  <div class="mobile-menu">
+      <a href="/login">Login</a>
+      <a href="/logout">Logout</a>
+      <a href="/register">Register</a>
+  </div>
+
+    <div class="title">
+      <h1><%= title %></h1>
+    </div>
+    <div class="container">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone #</th>
+            <th>Phone Type</th>
+            <th>Problem</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <% tickets.forEach(function(ticket){ %>
+              <tr>
+                  <td><%= ticket.name %></td>
+                  <td><%= ticket.phone_number %></td>
+                  <td><%= ticket.cellphone %></td>
+                  <td><%= ticket.problem %></td>
+                  <td>
+                    <a href="edit/<%= ticket.id %>" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="delete/<%= ticket.id %>" class="btn btn-sm btn-danger">Delete</a>
+                  </td>
+              </tr>
+          <% }); %>
+      </tbody>
+        
+      </table>
+    </div>
+
+    <div class="container">
+      <div class="form-container">
+        <form action="/addticket" method="POST">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter Name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="phone_number">Phone No:</label>
+            <input type="number" class="form-control" id="phone_number" placeholder="Enter Phone No" name="phone_number" required>
+          </div>
+          <div class="form-group">
+            <label for="cellphone">Phone Type:</label>
+            <input type="text" class="form-control" id="cellphone" placeholder="Enter Phone Type" name="cellphone" required>
+          </div>
+          <div class="form-group">
+            <label for="problem">Problem:</label>
+            <input type="text" class="form-control" id="problem" placeholder="Enter Problem with Phone" name="problem" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+</body>
+</html>

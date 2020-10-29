@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Bar Cellphone Repair Ticketing System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/120ca474ce.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+</head>
+<body>
+    <script>
+        function createTable(){
+            fetch('http://localhost:3000/createpoststable').then(res=>{
+                console.log(res);
+            });
+        }
+        function logout(){
+            fetch('http://localhost:3000/logout').then(res=>
+                {console.log("Logged Out");}
+            )
+        };
+        console.log(document.cookie);
+        // function addpost(formdata){
+        //     //addpost
+        //     continue;
+        // }
+    </script>
+
+    
+    
+    <div class="container">
+		<div class="login-content">
+			<form action="/registerUser" method="POST">
+				<img src="/img/Cyber-Bar.png" alt="logo">
+				<h1 class="title">Sign-up</h1>
+           		<div class="input-div one">
+           		   <div class="i">
+           		   		<i class="fas fa-user"></i>
+           		   </div>
+           		   <div class="div">
+           		   		<input type="text" class="input" placeholder="Username" name="username" id="username" value="">
+           		   </div>
+           		</div>
+           		<div class="input-div pass">
+           		   <div class="i"> 
+           		    	<i class="fas fa-lock"></i>
+           		   </div>
+           		   <div class="div">
+           		    	<input type="password" class="input" placeholder="Password" name="password" id="password" value="">
+            	   </div>
+                </div>
+                <div class="input-div pass">
+                    <div class="i"> 
+                         <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="div">
+                         <input type="password" class="input" placeholder="Verify" name="verify" id="verify" value="">
+                    </div>
+                </div>
+            	<a href="/login">Already Registered? Sign In</a>
+            	<input type="submit" class="button" value="Sign-up">
+            </form>
+        </div>
+    </div>
+
+    
+</body>
+</html>

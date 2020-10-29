@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const path = require('path');
 const ejs = require('ejs');
 const bodyParser = require('body-parser');
-
+const app = express();
 
 
 // Create connection
@@ -24,7 +24,6 @@ db.connect((err) => {
     }
 })
 
-const app = express(); 
 
 //set views file
 app.set('views',path.join(__dirname,'views'));
@@ -38,12 +37,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Puts css files into a static folder for files
 app.use('/css', express.static(__dirname + '/public/css'));
 
+// Puts img files into a static folder for files
+app.use('/img', express.static(__dirname + '/public/img'));
+
+
+
 app.use(express.static('cellphonerepair-ticket-system'), express.urlencoded({
     extended:true
     })
 );
 
-// the route '/' is routed to the login.html page. 
+// the route '/' is routed to the login.html page.
+/* 
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/views/login.html'));
 });
@@ -56,6 +61,38 @@ app.get('/index', function (req, res) {
 app.get('/register', function (req, res) {
     res.sendFile(path.join(__dirname + '/views/register.html'));
 });
+
+// Routes to the login page which routes to the views/login.html page 
+app.get('/login', function (req, res) {
+    res.sendFile(path.join(__dirname + '/views/login.html'));
+});
+*/
+
+
+// page routes to login
+app.get('/login', function(req, res) {
+    res.render('login');
+});
+
+// page routes to register
+app.get('/register', function(req, res) {
+    res.render('register');
+});
+
+app.get('/dashboard',(req, res) => {
+    let sql = "SELECT * FROM tickets";
+    let query = db.query(sql, (err, rows) => {
+        if(err) throw err;
+        res.render('dashboard', {
+            title : 'Repair Ticket List',
+            tickets : rows
+        });
+    });
+});
+
+
+
+
 
 /*Route to register the user checks for verification of password 
 If username, password and verify matches corectly the info is inserted into the Database*/
@@ -74,15 +111,11 @@ app.post('/registerUser', (req, res) => {
     let query = db.query(sql, user, (err, result) => {
         if(err) throw err;
         console.log(result);
-        res.send('User Added');
+        res.redirect('/login');
     });
     return "user added";
 });
 
-// Routes to the login page which routes to the views/login.html page 
-app.get('/login', function (req, res) {
-    res.sendFile(path.join(__dirname + '/views/login.html'));
-});
 
 /* Takes the login and password information checks the database to see if the login and password info is stored.
 If so, then it grants access to app, if not then console.log not logged in.*/
@@ -102,7 +135,7 @@ app.post('/login', (req, res) => {
             let user1 = {id:user[0].id, username:user[0].username};
             res.cookie('user', user1);
             console.log("Logged In");
-            res.redirect('index');
+            res.redirect('/dashboard');
         }
         else{
             console.log("Not logged In");
@@ -113,7 +146,8 @@ app.post('/login', (req, res) => {
 
 app.get('/logout', function (req, res) {
     res.clearCookie('user');
-    res.redirect('/');
+    console.log("logged out");
+    res.redirect('login');
 });
 // Create ticket
 app.post('/addticket', (req, res) => {
@@ -127,10 +161,32 @@ app.post('/addticket', (req, res) => {
     let query = db.query(sql, user, (err, result) => {
         if(err) throw err;
         console.log("ticket added");
-        res.redirect('/index');
+        res.redirect('/dashboard');
     });
-    return "ticket added"
 });
+
+app.get('/edit/:id', (req, res) => {
+        let newTitle = 'Updated Title';
+        let sql = `UPDATE tickets SET name = '${newTitle}' WHERE id = ${req.params.id}`;
+        let query = db.query(sql, (err, result) => {
+            if(err) throw err;
+            console.log(result);
+            res.send('Post updated...');
+        });
+    });
+
+
+
+// Delete ticket
+app.get('/delete/:id', (req, res) => {
+    let sql = `DELETE FROM tickets WHERE id = ${req.params.id}`;
+    let query = db.query(sql, (err, result) => {
+        if(err) throw err;
+        console.log(result);
+        res.send('ticket deleted...');
+    });
+});
+
 
 // // Insert post 1
 // app.get('/addpost1', (req, res) => {

@@ -68,6 +68,9 @@ app.get('/login', function (req, res) {
 });
 */
 
+app.get('/', function(req, res) {
+    res.render('login');
+});
 
 // page routes to login
 app.get('/login', function(req, res) {
@@ -167,14 +170,27 @@ app.post('/addticket', (req, res) => {
 
 app.get('/edit/:id', (req, res) => {
         let newTitle = 'Updated Title';
-        let sql = `UPDATE tickets SET name = '${newTitle}' WHERE id = ${req.params.id}`;
+        let sql = `SELECT * FROM tickets WHERE id = ${req.params.id}`;
         let query = db.query(sql, (err, result) => {
             if(err) throw err;
-            console.log(result);
-            res.send('Post updated...');
+            // console.log(result);
+            // res.send('Post updated...');
+            res.render('editForm', {
+                title : 'Update Repair Ticket List',
+                tickets : result
+            });
         });
+        // res.render('editForm');
     });
 
+app.post('/update',(req, res) => {
+    const userId = req.body.id;
+    let sql = "UPDATE tickets SET name='"+req.body.name+"',  phone_number='"+req.body.phone_number+"',  cellphone='"+req.body.cellphone+"', problem='"+req.body.problem+"' where id ="+userId;
+    let query = db.query(sql,(err, results) => {
+      if(err) throw err;
+      res.redirect('/dashboard');
+    });
+});
 
 
 // Delete ticket

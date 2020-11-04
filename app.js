@@ -4,6 +4,7 @@ const path = require('path');
 const ejs = require('ejs');
 const bodyParser = require('body-parser');
 const app = express();
+var PORT = process.env.PORT || 5000;
 
 
 // // Create connection
@@ -288,6 +289,6 @@ app.get('/delete/:id', (req, res) => {
 //     });
 // });
 
-app.listen('3000', () => {
-    console.log('Server started on port 3000');
+app.listen(PORT, () => {
+    console.log('Server started');
 });

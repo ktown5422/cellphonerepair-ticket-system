@@ -6,13 +6,21 @@ const bodyParser = require('body-parser');
 const app = express();
 
 
+// // Create connection
+// const db = mysql.createConnection({
+//     host: 'localhost',
+//     port: 8889,
+//     user: 'ticket-system',
+//     password: 'ticket-system',
+//     database: 'ticket-system'
+// });
+
 // Create connection
 const db = mysql.createConnection({
-    host: 'localhost',
-    port: 8889,
-    user: 'ticket-system',
-    password: 'ticket-system',
-    database: 'ticket-system'
+    host: 'us-cdbr-east-02.cleardb.com',
+    user: 'b43bc934692437',
+    password: 'd0bfc8b6',
+    database: 'heroku_ce5c9338aca33a6'
 });
 
 // Connect Database

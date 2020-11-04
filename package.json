@@ -17,6 +17,9 @@
   "bugs": {
     "url": "https://github.com/ktown5422/cellphonerepair-ticket-system/issues"
   },
+  "engines": {
+    "node": "11.10.0"
+  },
   "homepage": "https://github.com/ktown5422/cellphonerepair-ticket-system#readme",
   "dependencies": {
     "dotenv": "^8.2.0",

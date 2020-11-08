@@ -4,7 +4,7 @@ const path = require('path');
 const ejs = require('ejs');
 const bodyParser = require('body-parser');
 const app = express();
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || '3000';
 
 
 // // Create connection
